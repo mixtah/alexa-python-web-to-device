@@ -121,40 +121,59 @@ def set_world_state():
 @app.get("/login")
 def login():
     session = bottle.request.environ.get('beaker.session')  #@UndefinedVariable
-    resp = requests.post(AMAZON_AUTH_ENDPOINT, data=LOGIN_PAYLOAD, headers={"Content-Type":"application/x-www-form-urlencoded"})
+    resp = requests.post(AMAZON_AUTH_ENDPOINT, data=LOGIN_PAYLOAD, 
+                         headers={"Content-Type":"application/x-www-form-urlencoded"})
     
-    session["login_resp"] = resp
+    session["login_resp"] = resp.json()
     
-    return bottle.redirect("/?alert=status_code: "+str(resp.status_code)+" json: "+str(resp.json()))
+    oauth_vars["user_code"] = resp.get('user_code', None)
+    oauth_vars["device_code"] = resp.get('device_code', None)
+    oauth_vars["verification_uri"] = resp.get('verification_uri', None)
+    oauth_vars["expires_in"] = resp.get('expires_in', None)
+    oauth_vars["interval"] = resp.get('interval', None)
+    
+    return bottle.template('page-register', 
+                           alert=session.pop('alert',''),
+                           oauth_vars=oauth_vars)
 
-@app.get("/authresponse")
-def authresponse():
+@app.get("/get_token")
+def gettoken():
     session = bottle.request.environ.get('beaker.session')  #@UndefinedVariable
     
-    oauth_vars["user_code"] = bottle.request.query.get('user_code', None)
-    oauth_vars["device_code"] = bottle.request.query.get('device_code', None)
-    oauth_vars["verification_uri"] = bottle.request.query.get('verification_uri', None)
-    oauth_vars["expires_in"] = bottle.request.query.get('expires_in', None)
-    oauth_vars["interval"] = bottle.request.query.get('interval', None)
+    payload = {
+        "user_code": oauth_vars.get('user_code',''),
+        "device_code": oauth_vars.get('device_code',''),
+        "grant_type": "device_code",
+        }
     
+    resp = requests.post(AMAZON_AUTH_ENDPOINT, data=payload, 
+                         headers={"Content-Type":"application/x-www-form-urlencoded"})
+    
+    oauth_vars["token"] = resp.json()
     
     return bottle.template('page-home', 
                            alert=session.pop('alert',''),
                            oauth_vars=oauth_vars)
     
-    #callback = URL
-    #payload = {
-    #    "client_id": CLIENT_ID,
-    #    "client_secret": CLIENT_SECRET,
-    #    "code": code,
-    #    "grant_type": "authorization_code",
-    #    "redirect_uri": callback
-    #}
-    #url = "https://api.amazon.com/auth/o2/token"
-    #r = requests.post(url, data=payload)
-    #resp = r.json()
-    #alert = "Response<br>{}".format(resp)
-    #bottle.redirect('/?alert=%s'%alert)
+@app.get("/refresh_token")
+def refreshtoken():
+    session = bottle.request.environ.get('beaker.session')  #@UndefinedVariable
+    
+    payload = {
+        "client_id": CLIENT_ID,
+        "refresh_token": oauth_vars['token'].get('refresh_token',''),
+        "grant_type": "refresh_token",
+        }
+    
+    resp = requests.post(AMAZON_AUTH_ENDPOINT, data=payload, 
+                         headers={"Content-Type":"application/x-www-form-urlencoded"})
+    
+    oauth_vars["token"] = resp.json()
+    
+    return bottle.template('page-home', 
+                           alert=session.pop('alert',''),
+                           oauth_vars=oauth_vars)
+    
 
 ###################################################################################
 ### Application Initialisation

@@ -10,3 +10,8 @@ Alexa and stores the responses for an external application to use.</p>
         src="https://images-na.ssl-images-amazon.com/images/G/01/lwa/btnLWA_gold_156x32.png"
         width="156" height="32" />
  </a>
+ 
+ 
+ 
+ <a href="/get_token">Click here to get token after registering device (login)</a>
+ <a href="/refresh_token">Click here to refresh token (if auto logged out)</a>
