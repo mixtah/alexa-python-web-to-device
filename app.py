@@ -82,14 +82,14 @@ def set_world_state():
     wstate = World_States.get(int(id))
     res = bottle.request.forms.dict
     
-    wstate.settings = res.get('settings',wstate.settings)
-    wstate.isdaytime = res.get('isdaytime',wstate.isdaytime)
-    wstate.islighton = res.get('islighton',wstate.islighton)
-    wstate.isdrillon = res.get('isdrillon',wstate.isdrillon)
-    wstate.planetname = res.get('planetname',wstate.planetname)
-    wstate.lookingat = res.get('lookingat',wstate.lookingat)
-    wstate.pressure = float(res.get('pressure',wstate.pressure))
-    wstate.temperature = float(res.get('temperature',wstate.temperature))
+    wstate.settings = res.get('settings',wstate.settings)[0]
+    wstate.isdaytime = res.get('isdaytime',wstate.isdaytime)[0]
+    wstate.islighton = res.get('islighton',wstate.islighton)[0]
+    wstate.isdrillon = res.get('isdrillon',wstate.isdrillon)[0]
+    wstate.planetname = res.get('planetname',wstate.planetname)[0]
+    wstate.lookingat = res.get('lookingat',wstate.lookingat)[0]
+    wstate.pressure = float(res.get('pressure',wstate.pressure)[0])
+    wstate.temperature = float(res.get('temperature',wstate.temperature)[0])
     
     if wstate.save():
         resp = {
