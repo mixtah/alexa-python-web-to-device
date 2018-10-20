@@ -19,6 +19,7 @@ TIME_ZONE = 'Australia/Sydney'
 URL = "https://sunred.zira.com.au/"
 DIR = "/home/zira/alexa-python-web-to-device"
 
+AMAZON_ENDPOINT = "https://api.amazon.com/auth/O2/create/codepair"
 CLIENT_ID = os.environ.get('ALEXA_CLIENT_ID',"")
 CLIENT_SECRET = os.environ.get('ALEXA_CLIENT_SECRET',"")
 PRODUCT_ID = os.environ.get('ALEXA_PRODUCT_ID','')

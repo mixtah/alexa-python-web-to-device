@@ -121,7 +121,7 @@ def set_world_state():
 @app.get("/login")
 def login():
     
-    auth_base_url = "https://www.amazon.com/ap/oa"
+    auth_base_url = AMAZON_ENDPOINT
     callback = URL + "authresponse"
     payload = LOGIN_PAYLOAD
     req = requests.Request('GET', auth_base_url, params=payload)
