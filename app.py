@@ -114,7 +114,7 @@ def set_world_state():
     return json.dumps(resp)
 
 @app.get("/login")
-def index(self):
+def index():
     sd = json.dumps({
         "alexa:all": {
             "productID": PRODUCT_ID,
@@ -137,7 +137,7 @@ def index(self):
     return bottle.redirect(p.url)
 
 @app.get("/authresponse")
-def authresponse(self):
+def authresponse():
     
     code = urllib.parse.quote(bottle.request.query.get('code')[0])
     callback = URL
