@@ -6,14 +6,16 @@ Created on 28 Aug 2017
 @sumary: A basic web application
 '''
 
-import sys,os
+import sys,os, uuid, requests
 import socket
 import json
 import bottle
+import urllib
 from bottle import Bottle
-
+from settings import *
 from beaker.middleware import SessionMiddleware
 import World_States, Alexa_Responses
+import alexa_client
 
 #Initialize webapp
 app = Bottle()
@@ -21,6 +23,8 @@ app = Bottle()
 ###################################################################################
 ### Serve Static Files
 ###################################################################################
+
+alexa = alexa_client.AlexaClient()
 
 @app.route('/styles/<filename>')
 def serve_style(filename):
@@ -49,6 +53,17 @@ def home():
     return bottle.template('page-home', 
                            alert=session.pop('alert',''))
 
+@app.route('/test')
+def test():
+    session = bottle.request.environ.get('beaker.session')  #@UndefinedVariable
+    
+    input = 'static/media/1.wav'
+    save_to = 'static/media/test_ask.mp3'
+    alexa.ask(input, save_to=save_to)
+    session['alert'] = "Response saved to {}".format(save_to)
+    
+    return bottle.template('page-home', 
+                           alert=session.pop('alert',''))
 
 #Create POST for upload audio to Alexa and respond with Audio file link
 @app.post('/send_audio')
@@ -97,6 +112,47 @@ def set_world_state():
             }
     
     return json.dumps(resp)
+
+@app.get("/login")
+def index(self):
+    sd = json.dumps({
+        "alexa:all": {
+            "productID": PRODUCT_ID,
+            "productInstanceAttributes": {
+                "deviceSerialNumber": uuid.getnode()
+            }
+        }
+    })
+    url = "https://www.amazon.com/ap/oa"
+    callback = URL + "authresponse"
+    payload = {
+        "client_id": CLIENT_ID,
+        "scope": "alexa:all",
+        "scope_data": sd,
+        "response_type": "code",
+        "redirect_uri": callback
+    }
+    req = requests.Request('GET', url, params=payload)
+    p = req.prepare()
+    return bottle.redirect(p.url)
+
+@app.get("/authresponse")
+def authresponse(self, var=None, **params):
+    
+    code = urllib.parse.quote(bottle.request.query.get('code')[0])
+    callback = URL
+    payload = {
+        "client_id": CLIENT_ID,
+        "client_secret": CLIENT_SECRET,
+        "code": code,
+        "grant_type": "authorization_code",
+        "redirect_uri": callback
+    }
+    url = "https://api.amazon.com/auth/o2/token"
+    r = requests.post(url, data=payload)
+    resp = r.json()
+    return "Success! Here is your refresh token:<br>{}".format(
+        resp['refresh_token'])
 
 ###################################################################################
 ### Application Initialisation

@@ -3,6 +3,7 @@ Created on 20 Oct. 2018
 
 @author: Michael
 '''
+import os
 CONFIG = {
               'host':'127.0.0.1',
               'user':'mikebauer',
@@ -15,7 +16,13 @@ DEBUG = True
 #Time Zone settings
 TIME_ZONE = 'Australia/Sydney'
 
+URL = "http://sunred.zira.com.au/"
 
+CLIENT_ID = os.environ.get('ALEXA_CLIENT_ID',"")
+CLIENT_SECRET = os.environ.get('ALEXA_CLIENT_SECRET',"")
+PRODUCT_ID = os.environ.get('ALEXA_PRODUCT_ID','')
+REFRESH_TOKEN = os.environ.get('ALEXA_REFRESH_TOKEN',"")
+WEB_PORT = int(os.environ['ALEXA_PORT']) or 3000
 
 
 #WYSIWYG Settings
