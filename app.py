@@ -124,7 +124,8 @@ def login():
     resp = requests.post(AMAZON_AUTH_ENDPOINT, data=LOGIN_PAYLOAD, 
                          headers={"Content-Type":"application/x-www-form-urlencoded"})
     
-    session["login_resp"] = resp.json()
+    resp_json = resp.json()
+    session["login_resp"] = resp_json
     
     oauth_vars["user_code"] = resp.get('user_code', None)
     oauth_vars["device_code"] = resp.get('device_code', None)
