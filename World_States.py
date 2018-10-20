@@ -42,7 +42,10 @@ class World_State(object):
         '''
         
         self.id = params.get('id',None)
-        self.id = params.get('name',None)
+        self.planetname = params.get('planetname',None)
+        self.pressure = params.get('pressure',None)
+        self.temperature = params.get('temperature',None)
+        self.lookingat = params.get('lookingat',None)
         self.isdaytime = params.get('isdaytime',True)
         self.islighton = params.get('islighton',True)
         self.isdrillon = params.get('isdrillon',True)

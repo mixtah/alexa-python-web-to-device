@@ -73,6 +73,31 @@ def world_state():
     
     return json.dumps(resp)
 
+@app.post('/world_state')
+def set_world_state():
+    id = bottle.request.query.get('id', 1)
+    resp = {
+            'error':'world state not saved'
+            }
+    wstate = World_States.get(int(id))
+    res = bottle.request.forms.dict
+    
+    wstate.settings = res.get('settings',wstate.settings)
+    wstate.isdaytime = res.get('isdaytime',wstate.isdaytime)
+    wstate.islighton = res.get('islighton',wstate.islighton)
+    wstate.isdrillon = res.get('isdrillon',wstate.isdrillon)
+    wstate.planetname = res.get('planetname',wstate.planetname)
+    wstate.lookingat = res.get('lookingat',wstate.lookingat)
+    wstate.pressure = float(res.get('pressure',wstate.pressure))
+    wstate.temperature = float(res.get('temperature',wstate.temperature))
+    
+    if wstate.save():
+        resp = {
+            'state': wstate.__dict__
+            }
+    
+    return json.dumps(resp)
+
 ###################################################################################
 ### Application Initialisation
 ###################################################################################

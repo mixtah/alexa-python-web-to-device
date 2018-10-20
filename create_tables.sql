@@ -7,8 +7,11 @@ CREATE TABLE IF NOT EXISTS alexa_response (
 
 CREATE TABLE IF NOT EXISTS world_state (
 	id			SERIAL		PRIMARY KEY,
-	name	TEXT,
-	isdaytime		BOOLEAN DEFAULT TRUE NOT NULL,
+	planetname	TEXT,
+	lookingat 	TEXT,
+	pressure 	FLOAT,
+	temperature FLOAT,
+	isdaytime	BOOLEAN DEFAULT TRUE NOT NULL,
 	islighton	BOOLEAN DEFAULT TRUE NOT NULL,
 	isdrillon	BOOLEAN DEFAULT TRUE NOT NULL,
 	settings	TEXT,
