@@ -122,7 +122,7 @@ def set_world_state():
 def login():
     
     payload = LOGIN_PAYLOAD
-    req = requests.Request('GET', AMAZON_AUTH_ENDPOINT, params=payload)
+    req = requests.Request('POST', AMAZON_AUTH_ENDPOINT, params=payload)
     p = req.prepare()
     
     return bottle.redirect(p.url)
