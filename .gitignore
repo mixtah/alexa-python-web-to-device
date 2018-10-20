@@ -1,0 +1,37 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+
+#Webapp User uploaded Media Files
+webapp/media/*
+
+#Backup and special local only files
+ignore/*
+.settings/*
+
+#Eclipse PyDev plugin
+.project
+.pydevproject
+
+#Vagrant files
+.vagrant/
+Vagrantfile
+
+#android
+android/*.iml
+android/.gradle
+android/local.properties
+android/.idea/workspace.xml
+android/.idea/libraries
+android/.DS_Store
+android/build
+android/captures
+android/app/app-release.apk
+android/.idea/*
+webapp/.idea
+
+#Settings
+webapp/local_settings.py
+
+#installed static files
+webapp/static/*
