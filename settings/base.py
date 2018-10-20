@@ -31,8 +31,8 @@ SCOPE_DATA = {
         "alexa:all": {
             "productID": PRODUCT_ID,
             "productInstanceAttributes": {
-               # "deviceSerialNumber": uuid.getnode()
-               "deviceSerialNumber": "1234"
+                "deviceSerialNumber": uuid.getnode()
+               #"deviceSerialNumber": "1234"
             }
         }
     }
@@ -41,7 +41,7 @@ LOGIN_PAYLOAD = {
         "client_id": CLIENT_ID,
         "scope": "alexa:all",
         "scope_data": SCOPE_DATA,
-        "response_type": "code",
+        "response_type": "device_code",
         "redirect_uri": URL
     }
 
