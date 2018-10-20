@@ -3,7 +3,7 @@ Created on 20 Oct. 2018
 
 @author: Michael
 '''
-import os, uuid
+import os, uuid, json
 CONFIG = {
           'host':'127.0.0.1',
           'user':'mikebauer',
@@ -40,7 +40,7 @@ SCOPE_DATA = {
 LOGIN_PAYLOAD = {
         "client_id": CLIENT_ID,
         "scope": "alexa:all",
-        "scope_data": SCOPE_DATA,
+        "scope_data": json.dumps(SCOPE_DATA),
         "response_type": "device_code",
         "redirect_uri": URL
     }
