@@ -16,9 +16,11 @@ from settings import *
 from beaker.middleware import SessionMiddleware
 import World_States, Alexa_Responses
 import alexa_client
+from requests_oauthlib import OAuth2Session
 
 #Initialize webapp
 app = Bottle()
+oauth_vars = {}
 
 ###################################################################################
 ### Serve Static Files
@@ -114,7 +116,7 @@ def set_world_state():
     return json.dumps(resp)
 
 @app.get("/login")
-def index():
+def login():
     sd = json.dumps({
         "alexa:all": {
             "productID": PRODUCT_ID,
@@ -123,7 +125,7 @@ def index():
             }
         }
     })
-    url = "https://www.amazon.com/ap/oa"
+    auth_base_url = "https://www.amazon.com/ap/oa"
     callback = URL + "authresponse"
     payload = {
         "client_id": CLIENT_ID,
@@ -132,9 +134,16 @@ def index():
         "response_type": "code",
         "redirect_uri": callback
     }
-    req = requests.Request('GET', url, params=payload)
-    p = req.prepare()
-    return bottle.redirect(p.url)
+    #req = requests.Request('GET', auth_base_url, params=payload)
+    #p = req.prepare()
+    
+    oauth = OAuth2Session(**payload)
+    auth_url,state = oauth.authorization_url(auth_base_url)
+    oauth_vars['auth_url'] = auth_url
+    oauth_vars['state'] = state
+    
+    #return bottle.redirect(p.url)
+    return bottle.redirect(auth_url)
 
 @app.get("/authresponse")
 def authresponse():
