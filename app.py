@@ -138,7 +138,7 @@ def index():
 
 @app.get("/authresponse")
 def authresponse():
-    
+    session = bottle.request.environ.get('beaker.session')  #@UndefinedVariable
     code = urllib.quote(bottle.request.query.get('code')[0])
     callback = URL
     payload = {
@@ -151,8 +151,9 @@ def authresponse():
     url = "https://api.amazon.com/auth/o2/token"
     r = requests.post(url, data=payload)
     resp = r.json()
-    return "Success! Here is your refresh token:<br>{}".format(
+    session['alert'] = "Success! Here is your refresh token:<br>{}".format(
         resp.get('refresh_token',"No Refresh Token!"))
+    bottle.redirect('/')
 
 ###################################################################################
 ### Application Initialisation
