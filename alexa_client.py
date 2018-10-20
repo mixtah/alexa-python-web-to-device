@@ -13,7 +13,7 @@ import uuid
 headers={"Content-Type":"application/x-www-form-urlencoded"}
 
 class AlexaClient(object):
-    def __init__(self, token=None, oauth_vars, *args, **kwargs):
+    def __init__(self, token=None, oauth_vars=oauth_vars, *args, **kwargs):
         self.oauth_vars = oauth_vars
         self._token = oauth_vars.get('token','')
         self._client_id = settings.CLIENT_ID
