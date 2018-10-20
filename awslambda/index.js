@@ -42,6 +42,7 @@ const FACTS = {
 };
 
 let dataReady = false;
+let data = null;
 
 function getRandomMessageFromList(messages){
     return messages[Math.floor(Math.random() * messages.length)];
@@ -62,6 +63,7 @@ function getWorldStatePromise(cb){
         });
     }).then(
         (data) => {
+            console.log(data)
             cb(data);
         },
         (err) => {
@@ -76,14 +78,38 @@ const handlers = {
         this.emit('GetNewFactIntent');
     },
     'GetNewFactIntent': function () {
-        const planet = 'mars'
-        const factArr = FACTS[planet];
-        const factIndex = Math.floor(Math.random() * factArr.length);
-        const randomFact = factArr[factIndex];
-        const speechOutput = GET_FACT_MESSAGE + planet + '. ' + randomFact;
-
-        this.response.cardRenderer(SKILL_NAME, randomFact);
+        const planet = data['planetname'];
+        const rfact = getRandomMessageFromList(FACTS[planet.toLowerCase()]);
+        const speechOutput = GET_FACT_MESSAGE + planet + '. ' + rfact;
         this.response.speak(speechOutput);
+        this.emit(':responseReady');
+    },
+    'getPlanetIntent': function () {
+        this.response.speak("Not Yet Implemented.");
+        this.emit(':responseReady');
+    },
+    'setPlanetIntent': function () {
+        this.response.speak("Not Yet Implemented.");
+        this.emit(':responseReady');
+    },
+    'whatAmILookingAtIntent': function () {
+        this.response.speak("Not Yet Implemented.");
+        this.emit(':responseReady');
+    },
+    'turnTheLightsOnIntent': function () {
+        this.response.speak("Not Yet Implemented.");
+        this.emit(':responseReady');
+    },
+    'turnTheLightsOffIntent': function () {
+        this.response.speak("Not Yet Implemented.");
+        this.emit(':responseReady');
+    },
+    'whatIsTheTemperatureIntent': function () {
+        this.response.speak("Not Yet Implemented.");
+        this.emit(':responseReady');
+    },
+    'whatIsThePressureIntent': function () {
+        this.response.speak("Not Yet Implemented.");
         this.emit(':responseReady');
     },
     'AMAZON.HelpIntent': function () {
@@ -105,7 +131,8 @@ const handlers = {
 
 exports.handler = function (event, context, callback) {
     dataReady = false;
-    getWorldStatePromise(data => {
+    getWorldStatePromise(d => {
+        data = d
         dataReady = true;
         const alexa = Alexa.handler(event, context, callback);
         alexa.APP_ID = APP_ID;
