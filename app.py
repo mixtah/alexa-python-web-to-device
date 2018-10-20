@@ -50,9 +50,11 @@ def send_static(filename):
 @app.route('/')
 def home():
     session = bottle.request.environ.get('beaker.session')  #@UndefinedVariable
-    
+    alert = bottle.request.query.get('alert', None)
+    if alert:
+        alert = alert+"<br>"+session.pop('alert','')
     return bottle.template('page-home', 
-                           alert=session.pop('alert',''))
+                           alert=alert)
 
 @app.route('/test')
 def test():
