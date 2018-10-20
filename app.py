@@ -121,8 +121,7 @@ def set_world_state():
 @app.get("/login")
 def login():
     session = bottle.request.environ.get('beaker.session')  #@UndefinedVariable
-    payload = LOGIN_PAYLOAD
-    resp = requests.post(AMAZON_AUTH_ENDPOINT, data=payload,headers={"Content-Type":"application/x-www-form-urlencoded"})
+    resp = requests.post(AMAZON_AUTH_ENDPOINT, data=LOGIN_PAYLOAD, headers={"Content-Type":"application/x-www-form-urlencoded"})
     
     session["login_resp"] = resp
     
