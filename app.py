@@ -120,12 +120,13 @@ def set_world_state():
 
 @app.get("/login")
 def login():
-    
+    session = bottle.request.environ.get('beaker.session')  #@UndefinedVariable
     payload = LOGIN_PAYLOAD
-    req = requests.Request('POST', AMAZON_AUTH_ENDPOINT, params=payload)
-    p = req.prepare()
+    resp = requests.post(AMAZON_AUTH_ENDPOINT, data=payload)
     
-    return bottle.redirect(p.url)
+    session["login_resp"] = resp
+    
+    return bottle.redirect("/?alert=status_code: "+resp.status_code+" json: "+resp.json())
 
 @app.get("/authresponse")
 def authresponse():
