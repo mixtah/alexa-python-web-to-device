@@ -21,11 +21,11 @@ import alexa_client
 app = Bottle()
 oauth_vars = {}
 
+alexa = None
+
 ###################################################################################
 ### Serve Static Files
 ###################################################################################
-
-alexa = alexa_client.AlexaClient()
 
 @app.route('/styles/<filename>')
 def serve_style(filename):
@@ -62,10 +62,11 @@ def home():
 def test():
     session = bottle.request.environ.get('beaker.session')  #@UndefinedVariable
     
-    input = os.path.join(DIR,'static','media','1.wav')
-    save_to = os.path.join(DIR,'static','media','test_ask.mp3')
-    alexa.ask(input, save_to=save_to)
-    session['alert'] = 'Response saved <a href="{}">here</a>'.format(save_to)
+    if alexa:
+        input = os.path.join(DIR,'static','media','1.wav')
+        save_to = os.path.join(DIR,'static','media','test_ask.mp3')
+        alexa.ask(input, save_to=save_to)
+        session['alert'] = 'Response saved <a href="{}">here</a>'.format(save_to)
     
     return bottle.template('page-home', 
                            alert=session.pop('alert',''))
@@ -147,7 +148,7 @@ def gettoken():
         "grant_type": "device_code",
         }
     
-    resp = requests.post(AMAZON_AUTH_ENDPOINT, data=payload, 
+    resp = requests.post(AMAZON_TOKEN_ENDPOINT, data=payload, 
                          headers={"Content-Type":"application/x-www-form-urlencoded"})
     
     oauth_vars["token"] = resp.json()
@@ -166,7 +167,7 @@ def refreshtoken():
         "grant_type": "refresh_token",
         }
     
-    resp = requests.post(AMAZON_AUTH_ENDPOINT, data=payload, 
+    resp = requests.post(AMAZON_TOKEN_ENDPOINT, data=payload, 
                          headers={"Content-Type":"application/x-www-form-urlencoded"})
     
     oauth_vars["token"] = resp.json()

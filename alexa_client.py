@@ -10,15 +10,15 @@ import shutil
 import tempfile
 import uuid
 
+headers={"Content-Type":"application/x-www-form-urlencoded"}
 
 class AlexaClient(object):
-    def __init__(self, token=None, client_id=settings.CLIENT_ID,
-                 client_secret=settings.CLIENT_SECRET,
-                 refresh_token=settings.REFRESH_TOKEN, *args, **kwargs):
-        self._token = token
-        self._client_id = client_id
-        self._client_secret = client_secret
-        self._refresh_token = refresh_token
+    def __init__(self, token=None, oauth_vars, *args, **kwargs):
+        self.oauth_vars = oauth_vars
+        self._token = oauth_vars.get('token','')
+        self._client_id = settings.CLIENT_ID
+        self._client_secret = settings.CLIENT_SECRET
+        self._refresh_token = self._token.get('refresh_token','')
         self.temp_dir = tempfile.mkdtemp()
 
     def get_token(self, refresh=False):
@@ -37,17 +37,47 @@ class AlexaClient(object):
         # Return saved token if one exists.
         if self._token and not refresh:
             return self._token
+        
+        if self._token and refresh:
+            return self.refresh_token()
+        
         # Prepare request payload
         payload = {
-            "client_id": self._client_id,
-            "client_secret": self._client_secret,
-            "refresh_token": self._refresh_token,
-            "grant_type": "refresh_token"
+        "user_code": self.oauth_vars.get('user_code',''),
+        "device_code": self.oauth_vars.get('device_code',''),
+        "grant_type": "device_code",
         }
-        url = "https://api.amazon.com/auth/o2/token"
-        res = requests.post(url, data=payload)
-        res_json = json.loads(res.text)
+        url = settings.AMAZON_TOKEN_ENDPOINT
+        res = requests.post(url, data=payload, headers=headers)
+        res_json = res.json()
         self._token = res_json['access_token']
+        self.oauth_vars['token'] = res_json
+        return self._token
+    
+    def refresh_token(self):
+        """Returns AVS access token.
+
+        If first call, will send a request to AVS to obtain the token
+        and save it for future use.
+
+        Args:
+            refresh (bool): If set to True, will send a request to AVS
+                            to refresh the token even if one's saved.
+
+        Returns:
+            AVS access token (str)
+        """
+        # Prepare request payload
+        payload = {
+        "client_id": settings.CLIENT_ID,
+        "refresh_token": self.oauth_vars['token'].get('refresh_token',''),
+        "grant_type": "refresh_token",
+        }
+        url = settings.AMAZON_TOKEN_ENDPOINT
+        res = requests.post(url, data=payload, headers=headers)
+        res_json = res.json()
+        self._token = res_json['access_token']
+        self.oauth_vars['token'] = res_json
         return self._token
 
     def get_request_params(self):
