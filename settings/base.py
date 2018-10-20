@@ -22,7 +22,7 @@ CLIENT_ID = os.environ.get('ALEXA_CLIENT_ID',"")
 CLIENT_SECRET = os.environ.get('ALEXA_CLIENT_SECRET',"")
 PRODUCT_ID = os.environ.get('ALEXA_PRODUCT_ID','')
 REFRESH_TOKEN = os.environ.get('ALEXA_REFRESH_TOKEN',"")
-WEB_PORT = int(os.environ['ALEXA_PORT']) or 3000
+WEB_PORT = int(os.environ.get('ALEXA_PORT',3000))
 
 
 #WYSIWYG Settings
