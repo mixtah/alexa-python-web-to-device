@@ -151,8 +151,8 @@ def authresponse():
     url = "https://api.amazon.com/auth/o2/token"
     r = requests.post(url, data=payload)
     resp = r.json()
-    session['alert'] = "Success! Here is your refresh token:<br>{}".format(
-        resp.get('refresh_token',"No Refresh Token!"))
+    session['alert'] = "Success! Here is your response<br>{}".format(
+        resp)
     bottle.redirect('/')
 
 ###################################################################################
