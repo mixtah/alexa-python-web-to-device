@@ -16,7 +16,6 @@ from settings import *
 from beaker.middleware import SessionMiddleware
 import World_States, Alexa_Responses
 import alexa_client
-from requests_oauthlib import OAuth2Session
 
 #Initialize webapp
 app = Bottle()
@@ -134,16 +133,10 @@ def login():
         "response_type": "code",
         "redirect_uri": callback
     }
-    #req = requests.Request('GET', auth_base_url, params=payload)
-    #p = req.prepare()
+    req = requests.Request('GET', auth_base_url, params=payload)
+    p = req.prepare()
     
-    oauth = OAuth2Session(**payload)
-    auth_url,state = oauth.authorization_url(auth_base_url)
-    oauth_vars['auth_url'] = auth_url
-    oauth_vars['state'] = state
-    
-    #return bottle.redirect(p.url)
-    return bottle.redirect(auth_url)
+    return bottle.redirect(p.url)
 
 @app.get("/authresponse")
 def authresponse():
