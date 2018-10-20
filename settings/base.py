@@ -3,20 +3,20 @@ Created on 20 Oct. 2018
 
 @author: Michael
 '''
-import os
+import os, uuid
 CONFIG = {
-              'host':'127.0.0.1',
-              'user':'mikebauer',
-              'passwd':'firefly!',
-              'db':'clublite'
-              }
+          'host':'127.0.0.1',
+          'user':'mikebauer',
+          'passwd':'firefly!',
+          'db':'clublite'
+          }
 
 DEBUG = True
 
 #Time Zone settings
 TIME_ZONE = 'Australia/Sydney'
 
-URL = "http://sunred.zira.com.au/"
+URL = "https://sunred.zira.com.au/"
 DIR = "/home/zira/alexa-python-web-to-device"
 
 CLIENT_ID = os.environ.get('ALEXA_CLIENT_ID',"")
@@ -25,6 +25,23 @@ PRODUCT_ID = os.environ.get('ALEXA_PRODUCT_ID','')
 REFRESH_TOKEN = os.environ.get('ALEXA_REFRESH_TOKEN',"")
 WEB_PORT = int(os.environ.get('ALEXA_PORT',3000))
 
+SCOPE_DATA = {
+        "alexa:all": {
+            "productID": PRODUCT_ID,
+            "productInstanceAttributes": {
+               # "deviceSerialNumber": uuid.getnode()
+               "deviceSerialNumber": "1234"
+            }
+        }
+    }
+
+LOGIN_PAYLOAD = {
+        "client_id": CLIENT_ID,
+        "scope": "alexa:all",
+        "scope_data": SCOPE_DATA,
+        "response_type": "code",
+        "redirect_uri": URL
+    }
 
 #WYSIWYG Settings
 def sanitize_iframe(attr,value):

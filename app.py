@@ -120,23 +120,10 @@ def set_world_state():
 
 @app.get("/login")
 def login():
-    sd = json.dumps({
-        "alexa:all": {
-            "productID": PRODUCT_ID,
-            "productInstanceAttributes": {
-                "deviceSerialNumber": uuid.getnode()
-            }
-        }
-    })
+    
     auth_base_url = "https://www.amazon.com/ap/oa"
     callback = URL + "authresponse"
-    payload = {
-        "client_id": CLIENT_ID,
-        "scope": "alexa:all",
-        "scope_data": sd,
-        "response_type": "code",
-        "redirect_uri": callback
-    }
+    payload = LOGIN_PAYLOAD
     req = requests.Request('GET', auth_base_url, params=payload)
     p = req.prepare()
     
