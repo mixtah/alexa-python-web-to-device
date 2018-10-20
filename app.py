@@ -57,8 +57,8 @@ def home():
 def test():
     session = bottle.request.environ.get('beaker.session')  #@UndefinedVariable
     
-    input = 'static/media/1.wav'
-    save_to = 'static/media/test_ask.mp3'
+    input = os.path.join(DIR,'static','media','1.wav')
+    save_to = os.path.join(DIR,'static','media','test_ask.mp3')
     alexa.ask(input, save_to=save_to)
     session['alert'] = 'Response saved <a href="{}">here</a>'.format(save_to)
     

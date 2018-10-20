@@ -17,6 +17,7 @@ DEBUG = True
 TIME_ZONE = 'Australia/Sydney'
 
 URL = "http://sunred.zira.com.au/"
+DIR = "/home/zira/alexa-python-web-to-device"
 
 CLIENT_ID = os.environ.get('ALEXA_CLIENT_ID',"")
 CLIENT_SECRET = os.environ.get('ALEXA_CLIENT_SECRET',"")
