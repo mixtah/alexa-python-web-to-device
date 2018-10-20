@@ -152,7 +152,7 @@ def authresponse():
     r = requests.post(url, data=payload)
     resp = r.json()
     return "Success! Here is your refresh token:<br>{}".format(
-        resp['refresh_token'])
+        resp.get('refresh_token',"No Refresh Token!"))
 
 ###################################################################################
 ### Application Initialisation
