@@ -60,7 +60,7 @@ def test():
     input = 'static/media/1.wav'
     save_to = 'static/media/test_ask.mp3'
     alexa.ask(input, save_to=save_to)
-    session['alert'] = "Response saved to {}".format(save_to)
+    session['alert'] = 'Response saved <a href="{}">here</a>'.format(save_to)
     
     return bottle.template('page-home', 
                            alert=session.pop('alert',''))
