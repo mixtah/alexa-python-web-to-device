@@ -42,7 +42,7 @@ LOGIN_PAYLOAD = {
         "scope": "alexa:all",
         "scope_data": json.dumps(SCOPE_DATA),
         "response_type": "device_code",
-        "redirect_uri": URL
+        "redirect_uri": URL + "authresponse"
     }
 
 #WYSIWYG Settings
