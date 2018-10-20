@@ -121,10 +121,8 @@ def set_world_state():
 @app.get("/login")
 def login():
     
-    auth_base_url = AMAZON_ENDPOINT
-    callback = URL + "authresponse"
     payload = LOGIN_PAYLOAD
-    req = requests.Request('GET', auth_base_url, params=payload)
+    req = requests.Request('GET', AMAZON_AUTH_ENDPOINT, params=payload)
     p = req.prepare()
     
     return bottle.redirect(p.url)
@@ -132,20 +130,31 @@ def login():
 @app.get("/authresponse")
 def authresponse():
     session = bottle.request.environ.get('beaker.session')  #@UndefinedVariable
-    code = urllib.quote(bottle.request.query.get('code')[0])
-    callback = URL
-    payload = {
-        "client_id": CLIENT_ID,
-        "client_secret": CLIENT_SECRET,
-        "code": code,
-        "grant_type": "authorization_code",
-        "redirect_uri": callback
-    }
-    url = "https://api.amazon.com/auth/o2/token"
-    r = requests.post(url, data=payload)
-    resp = r.json()
-    alert = "Response<br>{}".format(resp)
-    bottle.redirect('/?alert=%s'%alert)
+    
+    oauth_vars["user_code"] = bottle.request.query.get('user_code', None)
+    oauth_vars["device_code"] = bottle.request.query.get('device_code', None)
+    oauth_vars["verification_uri"] = bottle.request.query.get('verification_uri', None)
+    oauth_vars["expires_in"] = bottle.request.query.get('expires_in', None)
+    oauth_vars["interval"] = bottle.request.query.get('interval', None)
+    
+    
+    return bottle.template('page-home', 
+                           alert=session.pop('alert',''),
+                           oauth_vars=oauth_vars)
+    
+    #callback = URL
+    #payload = {
+    #    "client_id": CLIENT_ID,
+    #    "client_secret": CLIENT_SECRET,
+    #    "code": code,
+    #    "grant_type": "authorization_code",
+    #    "redirect_uri": callback
+    #}
+    #url = "https://api.amazon.com/auth/o2/token"
+    #r = requests.post(url, data=payload)
+    #resp = r.json()
+    #alert = "Response<br>{}".format(resp)
+    #bottle.redirect('/?alert=%s'%alert)
 
 ###################################################################################
 ### Application Initialisation
