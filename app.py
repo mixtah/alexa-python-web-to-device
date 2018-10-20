@@ -126,7 +126,7 @@ def login():
     
     session["login_resp"] = resp
     
-    return bottle.redirect("/?alert=status_code: "+str(resp.status_code)+" json: "+resp.json())
+    return bottle.redirect("/?alert=status_code: "+str(resp.status_code)+" json: "+str(resp.json()))
 
 @app.get("/authresponse")
 def authresponse():
