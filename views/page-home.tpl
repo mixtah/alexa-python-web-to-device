@@ -11,7 +11,9 @@ Alexa and stores the responses for an external application to use.</p>
         width="156" height="32" />
  </a>
  
- 
+ <br><br>
  
  <a href="/get_token">Click here to get token after registering device (login)</a>
+ 
+ <br><br>
  <a href="/refresh_token">Click here to refresh token (if auto logged out)</a>
