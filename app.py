@@ -53,6 +53,8 @@ def home():
     alert = bottle.request.query.get('alert', None)
     if alert:
         alert = alert+"<br>"+session.pop('alert','')
+    else:
+        alert = session.pop('alert','')
     return bottle.template('page-home', 
                            alert=alert)
 
