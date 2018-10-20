@@ -153,9 +153,8 @@ def authresponse():
     url = "https://api.amazon.com/auth/o2/token"
     r = requests.post(url, data=payload)
     resp = r.json()
-    session['alert'] = "Success! Here is your response<br>{}".format(
-        resp)
-    bottle.redirect('/')
+    alert = "Response<br>{}".format(resp)
+    bottle.redirect('/?alert=%s'%alert)
 
 ###################################################################################
 ### Application Initialisation
