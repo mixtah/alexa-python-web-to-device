@@ -1,5 +1,6 @@
 CREATE TABLE IF NOT EXISTS alexa_response (
 	id			SERIAL		PRIMARY KEY,
+	name	TEXT,
 	link	TEXT,
 	settings	TEXT,
 	timestamp   DATETIME DEFAULT CURRENT_TIMESTAMP
@@ -15,5 +16,6 @@ CREATE TABLE IF NOT EXISTS world_state (
 	islighton	BOOLEAN DEFAULT TRUE NOT NULL,
 	isdrillon	BOOLEAN DEFAULT TRUE NOT NULL,
 	settings	TEXT,
+	action		TEXT,
 	timestamp   DATETIME DEFAULT CURRENT_TIMESTAMP
 );
