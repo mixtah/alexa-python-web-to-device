@@ -139,7 +139,7 @@ def index():
 @app.get("/authresponse")
 def authresponse():
     
-    code = urllib.parse.quote(bottle.request.query.get('code')[0])
+    code = urllib.quote(bottle.request.query.get('code')[0])
     callback = URL
     payload = {
         "client_id": CLIENT_ID,
