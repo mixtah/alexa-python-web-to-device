@@ -137,7 +137,7 @@ def index(self):
     return bottle.redirect(p.url)
 
 @app.get("/authresponse")
-def authresponse(self, var=None, **params):
+def authresponse(self):
     
     code = urllib.parse.quote(bottle.request.query.get('code')[0])
     callback = URL
