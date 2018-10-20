@@ -127,11 +127,11 @@ def login():
     resp_json = resp.json()
     session["login_resp"] = resp_json
     
-    oauth_vars["user_code"] = resp.get('user_code', None)
-    oauth_vars["device_code"] = resp.get('device_code', None)
-    oauth_vars["verification_uri"] = resp.get('verification_uri', None)
-    oauth_vars["expires_in"] = resp.get('expires_in', None)
-    oauth_vars["interval"] = resp.get('interval', None)
+    oauth_vars["user_code"] = resp_json.get('user_code', None)
+    oauth_vars["device_code"] = resp_json.get('device_code', None)
+    oauth_vars["verification_uri"] = resp_json.get('verification_uri', None)
+    oauth_vars["expires_in"] = resp_json.get('expires_in', None)
+    oauth_vars["interval"] = resp_json.get('interval', None)
     
     return bottle.template('page-register', 
                            alert=session.pop('alert',''),
