@@ -111,6 +111,7 @@ def set_world_state():
     wstate.lookingat = res.get('lookingat',[wstate.lookingat])[0]
     wstate.pressure = float(res.get('pressure',[wstate.pressure])[0])
     wstate.temperature = float(res.get('temperature',[wstate.temperature])[0])
+    wstate.action = float(res.get('action',[wstate.action])[0])
     
     if wstate.save():
         resp = {

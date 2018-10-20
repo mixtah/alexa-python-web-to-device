@@ -24,6 +24,7 @@ class Alexa_Response(object):
         
         self.id = params.get('id',None)
         self.link = params.get('link',"")
+        self.name = params.get('name','')
         self.settings = params.get('settings','{}')
         self.timestamp = params.get('timestamp',None)
         

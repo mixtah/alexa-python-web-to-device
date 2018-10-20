@@ -50,6 +50,7 @@ class World_State(object):
         self.islighton = params.get('islighton',True)
         self.isdrillon = params.get('isdrillon',True)
         self.settings = params.get('settings','{}')
+        self.action = params.get('action','')
         self.timestamp = params.get('timestamp',None)
         
         self.fix_bools(toMySQL=False)
