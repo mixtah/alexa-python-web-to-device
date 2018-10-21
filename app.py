@@ -103,6 +103,11 @@ def set_world_state():
     wstate = World_States.get(int(id))
     res = bottle.request.forms.dict
     
+    if wstate:
+        resp = {
+            'state': wstate.__dict__
+            }
+    
     wstate.settings = res.get('settings',[wstate.settings])[0]
     wstate.isdaytime = res.get('isdaytime',[wstate.isdaytime])[0]
     wstate.islighton = res.get('islighton',[wstate.islighton])[0]

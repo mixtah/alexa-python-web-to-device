@@ -108,7 +108,7 @@ const handlers = {
             "planetname":this.event.request.intent.slots.planetName.value
         };
         let res = setWorldState(data);
-        this.response.speak(pickAny(SET_SUCCESS_MESSAGE)+parse(pickAny(SET_PLANET_MESSAGES),res['planename']));
+        this.response.speak(pickAny(SET_SUCCESS_MESSAGES)+parse(pickAny(SET_PLANET_MESSAGES),res['planename']));
         this.emit(':responseReady');
     },
     'whatAmILookingAtIntent': function () {
