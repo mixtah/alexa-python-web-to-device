@@ -61,9 +61,14 @@ function pickAny(messages){
     return messages[Math.floor(Math.random() * messages.length)];
 }
 
-function setWorldState(post){
+function setWorldState(postdata){
     let res = undefined;
-    requestify.post(WORLD_STATE_URL,post).then(function(response) {
+    requestify.request(WORLD_STATE_URL,{
+        method: 'POST',
+        body: postdata,
+    }).then(function(response) {
+        console.log("Request Body:");
+        console.log(response.getBody());
         res = JSON.parse(response.getBody());
     });
 
@@ -110,7 +115,7 @@ const handlers = {
     },
     'setPlanetIntent': function () {
         let data = {
-            "planetname": this.event.request.intent.slots.planetName.value,
+            "action": "changetoplanet"+this.event.request.intent.slots.planetName.value,
         };
         let res = setWorldState(data)['state'];
         this.response.speak(pickAny(SET_SUCCESS_MESSAGES)+parse(pickAny(SET_PLANET_MESSAGES),res['planetname']));
