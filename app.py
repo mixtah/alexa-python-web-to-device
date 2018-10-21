@@ -131,6 +131,8 @@ def set_world_state():
         wstate.isdrillon = res.get('isdrillon',[wstate.isdrillon])
         wstate.planetname = res.get('planetname',[wstate.planetname])
         wstate.lookingat = res.get('lookingat',[wstate.lookingat])
+        print("Pressure")
+        print(res.get('pressure','no pressure'))
         wstate.pressure = float(res.get('pressure',[wstate.pressure]))
         wstate.temperature = float(res.get('temperature',[wstate.temperature]))
         wstate.windspeed = float(res.get('windspeed',[wstate.windspeed]))
