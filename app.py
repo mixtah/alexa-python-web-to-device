@@ -102,34 +102,43 @@ def set_world_state():
             }
     wstate = World_States.get(int(id))
     res = bottle.request.json
-    print("This was posted as form data:")
-    print(bottle.request.forms.dict)
-    print("This is the json data")
-    print(bottle.request.json)
-    
-    if not res:
-        res = bottle.request.forms.dict
-    
     if wstate:
         resp = {
             'state': wstate.__dict__
             }
     
-    wstate.settings = res.get('settings',[wstate.settings])[0]
-    wstate.isdaytime = res.get('isdaytime',[wstate.isdaytime])[0]
-    wstate.islighton = res.get('islighton',[wstate.islighton])[0]
-    wstate.isdrillon = res.get('isdrillon',[wstate.isdrillon])[0]
-    wstate.planetname = res.get('planetname',[wstate.planetname])[0]
-    wstate.lookingat = res.get('lookingat',[wstate.lookingat])[0]
-    wstate.pressure = float(res.get('pressure',[wstate.pressure])[0])
-    wstate.temperature = float(res.get('temperature',[wstate.temperature])[0])
-    wstate.windspeed = float(res.get('windspeed',[wstate.windspeed])[0])
-    wstate.gravity = float(res.get('gravity',[wstate.gravity])[0])
-    wstate.n2level = float(res.get('n2level',[wstate.n2level])[0])
-    wstate.co2level = float(res.get('co2level',[wstate.co2level])[0])
-    wstate.o2level = float(res.get('o2level',[wstate.o2level])[0])
-    wstate.action = res.get('action',[wstate.action])[0]
+    if not res:
+        res = bottle.request.forms.dict
     
+        wstate.settings = res.get('settings',[wstate.settings])[0]
+        wstate.isdaytime = res.get('isdaytime',[wstate.isdaytime])[0]
+        wstate.islighton = res.get('islighton',[wstate.islighton])[0]
+        wstate.isdrillon = res.get('isdrillon',[wstate.isdrillon])[0]
+        wstate.planetname = res.get('planetname',[wstate.planetname])[0]
+        wstate.lookingat = res.get('lookingat',[wstate.lookingat])[0]
+        wstate.pressure = float(res.get('pressure',[wstate.pressure])[0])
+        wstate.temperature = float(res.get('temperature',[wstate.temperature])[0])
+        wstate.windspeed = float(res.get('windspeed',[wstate.windspeed])[0])
+        wstate.gravity = float(res.get('gravity',[wstate.gravity])[0])
+        wstate.n2level = float(res.get('n2level',[wstate.n2level])[0])
+        wstate.co2level = float(res.get('co2level',[wstate.co2level])[0])
+        wstate.o2level = float(res.get('o2level',[wstate.o2level])[0])
+        wstate.action = res.get('action',[wstate.action])[0]
+    else:
+        wstate.settings = res.get('settings',[wstate.settings])
+        wstate.isdaytime = res.get('isdaytime',[wstate.isdaytime])
+        wstate.islighton = res.get('islighton',[wstate.islighton])
+        wstate.isdrillon = res.get('isdrillon',[wstate.isdrillon])
+        wstate.planetname = res.get('planetname',[wstate.planetname])
+        wstate.lookingat = res.get('lookingat',[wstate.lookingat])
+        wstate.pressure = float(res.get('pressure',[wstate.pressure]))
+        wstate.temperature = float(res.get('temperature',[wstate.temperature]))
+        wstate.windspeed = float(res.get('windspeed',[wstate.windspeed]))
+        wstate.gravity = float(res.get('gravity',[wstate.gravity]))
+        wstate.n2level = float(res.get('n2level',[wstate.n2level]))
+        wstate.co2level = float(res.get('co2level',[wstate.co2level]))
+        wstate.o2level = float(res.get('o2level',[wstate.o2level]))
+        wstate.action = res.get('action',[wstate.action])
     if wstate.save():
         resp = {
             'state': wstate.__dict__
