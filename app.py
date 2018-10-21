@@ -111,6 +111,11 @@ def set_world_state():
     wstate.lookingat = res.get('lookingat',[wstate.lookingat])[0]
     wstate.pressure = float(res.get('pressure',[wstate.pressure])[0])
     wstate.temperature = float(res.get('temperature',[wstate.temperature])[0])
+    wstate.windspeed = float(res.get('windspeed',[wstate.windspeed])[0])
+    wstate.gravity = float(res.get('gravity',[wstate.gravity])[0])
+    wstate.n2level = float(res.get('n2level',[wstate.n2level])[0])
+    wstate.co2level = float(res.get('co2level',[wstate.co2level])[0])
+    wstate.o2level = float(res.get('o2level',[wstate.o2level])[0])
     wstate.action = res.get('action',[wstate.action])[0]
     
     if wstate.save():

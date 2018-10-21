@@ -51,6 +51,11 @@ class World_State(object):
         self.isdrillon = params.get('isdrillon',True)
         self.settings = params.get('settings','{}')
         self.action = params.get('action','')
+        self.gravity = params.get('gravity',None)
+        self.n2level = params.get('n2level',None)
+        self.co2level = params.get('co2level',None)
+        self.o2level = params.get('o2level',None)
+        self.windspeed = params.get('windspeed',None)
         self.timestamp = params.get('timestamp',None)
         
         self.fix_bools(toMySQL=False)
