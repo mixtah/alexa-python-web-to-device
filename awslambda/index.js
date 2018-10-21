@@ -19,11 +19,11 @@ const HELP_MESSAGE = 'Ask me questions about your environment, or let me know if
 const HELP_REPROMPT = 'What can I help you with? ';
 const STOP_MESSAGES = ['Goodbye! ','see ya ','buh bye '];
 
-const GET_FACT_MESSAGE = "Here is a fact about %s.";
-const GET_PLANET_MESSAGES = ["You're currently on %s","The planet is %s","The planet you are on is %s","This is %s"];
+const GET_FACT_MESSAGE = "Here is a fact about %s. ";
+const GET_PLANET_MESSAGES = ["You're currently on %s ","The planet is %s ","The planet you are on is %s ","This is %s "];
 const GET_LOOKING_AT_MESSAGES = ["This is a %s.",];
-const GET_TEMPERATURE_MESSAGES = ["The Temperature is %s degrees Celcius."];
-const GET_PRESSURE_MESSAGES = [""];
+const GET_TEMPERATURE_MESSAGES = ["The Temperature is %s degrees Celcius. "];
+const GET_PRESSURE_MESSAGES = ["The Pressure is %s kiloPascals. "];
 
 const SET_SUCCESS_MESSAGES = ["Doing that for you now. ",'One moment. ','There, done.','Of course. '];
 const SET_PLANET_MESSAGES = ["The planet is now %s","Your planet has been set to %s"];
@@ -68,6 +68,8 @@ function setWorldState(post){
     while(res === undefined) {
         deasync.sleep(100);
     }
+    console.log("Updated World State:");
+    console.log(res);
     return res;
 }
 
@@ -78,6 +80,7 @@ function getWorldState(cb){
         });
     }).then(
         (res) => {
+            console.log("Current World State:");
             console.log(res)
             cb(res);
         },
@@ -105,10 +108,10 @@ const handlers = {
     },
     'setPlanetIntent': function () {
         let data = {
-            "planetname":this.event.request.intent.slots.planetName.value
+            "planetname": this.event.request.intent.slots.planetName.value,
         };
-        let res = setWorldState(data);
-        this.response.speak(pickAny(SET_SUCCESS_MESSAGES)+parse(pickAny(SET_PLANET_MESSAGES),res['planename']));
+        let res = setWorldState(data)['state'];
+        this.response.speak(pickAny(SET_SUCCESS_MESSAGES)+parse(pickAny(SET_PLANET_MESSAGES),res['planetname']));
         this.emit(':responseReady');
     },
     'whatAmILookingAtIntent': function () {

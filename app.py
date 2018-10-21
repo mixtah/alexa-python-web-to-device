@@ -101,14 +101,14 @@ def set_world_state():
             'error':'world state not saved'
             }
     wstate = World_States.get(int(id))
-    res = bottle.request.forms.dict
+    res = bottle.request.json
     print("This was posted as form data:")
-    print(res)
+    print(bottle.request.forms.dict)
     print("This is the json data")
     print(bottle.request.json)
     
     if not res:
-        res = bottle.request.json
+        res = bottle.request.forms.dict
     
     if wstate:
         resp = {
