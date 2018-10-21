@@ -24,6 +24,8 @@ const GET_PLANET_MESSAGES = ["You're currently on %s ","The planet is %s ","The 
 const GET_LOOKING_AT_MESSAGES = ["This is a %s.",];
 const GET_TEMPERATURE_MESSAGES = ["The Temperature is %s degrees Celcius. "];
 const GET_PRESSURE_MESSAGES = ["The Pressure is %s kiloPascals. "];
+const GET_WINDSPEED_MESSAGES = ["The wind is blowing at %s kilometers per hour. "];
+const GET_ATMOSPHERE_MESSAGES = ["The atmosphere here only is %s Oxygen, %s Carbon Dioxide and %s Nitrogen. "];
 
 const SET_SUCCESS_MESSAGES = ["Doing that for you now. ",'One moment. ','There, done.','Of course. '];
 const SET_PLANET_MESSAGES = ["The planet is now %s","Your planet has been set to %s"];
@@ -132,6 +134,14 @@ const handlers = {
     },
     'whatIsThePressureIntent': function () {
         this.response.speak(parse(pickAny(GET_PRESSURE_MESSAGES),data['pressure']));
+        this.emit(':responseReady');
+    },
+    'whatIsTheWindSpeedIntent': function () {
+        this.response.speak(parse(pickAny(GET_WINDSPEED_MESSAGES),data['windspeed']));
+        this.emit(':responseReady');
+    },
+    'whatIsTheAtmosphereIntent': function () {
+        this.response.speak(parse(pickAny(GET_ATMOSPHERE_MESSAGES),data['o2level'],data['co2level'],data['n2level']));
         this.emit(':responseReady');
     },
     'AMAZON.HelpIntent': function () {
