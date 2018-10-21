@@ -102,6 +102,13 @@ def set_world_state():
             }
     wstate = World_States.get(int(id))
     res = bottle.request.forms.dict
+    print("This was posted as form data:")
+    print(res)
+    print("This is the json data")
+    print(bottle.request.json)
+    
+    if not res:
+        res = bottle.request.json
     
     if wstate:
         resp = {
