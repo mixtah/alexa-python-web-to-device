@@ -46,7 +46,6 @@ def send_static(filename):
 ### Application Main Pages
 ###################################################################################
 
-
 @app.route('/')
 def home():
     session = bottle.request.environ.get('beaker.session')  #@UndefinedVariable
@@ -55,7 +54,18 @@ def home():
         alert = alert+"<br>"+session.pop('alert','')
     else:
         alert = session.pop('alert','')
-    return bottle.template('page-home', 
+    return bottle.template('page-landing.html', 
+                           alert=alert)
+
+@app.route('/alexa')
+def alexa():
+    session = bottle.request.environ.get('beaker.session')  #@UndefinedVariable
+    alert = bottle.request.query.get('alert', None)
+    if alert:
+        alert = alert+"<br>"+session.pop('alert','')
+    else:
+        alert = session.pop('alert','')
+    return bottle.template('page-alexa', 
                            alert=alert)
 
 @app.route('/test')

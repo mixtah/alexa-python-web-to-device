@@ -76,7 +76,7 @@ function setWorldState(postdata){
         synced = true;
     });
     console.log("Made the post:");
-    deasync.sleep(50);
+    deasync.sleep(100);
     while(!synced) {
         deasync.sleep(100);
     }
