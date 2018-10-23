@@ -198,7 +198,7 @@
   background: linear-gradient(to bottom, rgba(22, 22, 22, 0.8) 0%, rgba(22, 22, 22, 0.8) 75%, rgba(22, 22, 22, 0) 100%);
 }
 
-@media (min-width: 992px) {
+@media (min-width: 1200px) {
   .spacer-2-section {
     margin-top: -1px;
   }
