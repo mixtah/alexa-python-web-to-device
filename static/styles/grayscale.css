@@ -168,12 +168,34 @@
 
 .about-section {
   padding-top: 10rem;
-  background: -webkit-gradient(linear, left top, left bottom, from(#161616), color-stop(75%, rgba(22, 22, 22, 0.9)), to(rgba(22, 22, 22, 0.8)));
-  background: linear-gradient(to bottom, #161616 0%, rgba(22, 22, 22, 0.9) 75%, rgba(22, 22, 22, 0.8) 100%);
+  background: -webkit-gradient(linear, left top, left bottom, from(rgba(22, 22, 22, 0.1)), color-stop(75%, rgba(22, 22, 22, 0.5)), to(#161616)), url("../img/bg-signup.jpg");
+  background: linear-gradient(to bottom, rgba(22, 22, 22, 0.1) 0%, rgba(22, 22, 22, 0.5) 75%, #161616 100%), url("../img/med-res-iss.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  background-size: cover;
 }
 
 .about-section p {
   margin-bottom: 5rem;
+}
+
+.spacer-1-section {
+  padding-top: 10rem;
+  background: -webkit-gradient(linear, left top, left bottom, from(#161616), color-stop(75%, rgba(0, 0, 0, 1)), to(rgba(0, 0, 0, 1)));
+  background: linear-gradient(to bottom, #161616 0%, rgba(0, 0, 0, 1) 75%, rgba(0, 0, 0, 1) 100%);
+}
+
+.demo-section {
+  padding-top: 10rem;
+  background: -webkit-gradient(linear, left top, left bottom, from(#161616), color-stop(75%, rgba(22, 22, 22, 0.9)), to(rgba(22, 22, 22, 0.8)));
+  background: linear-gradient(to bottom, #161616 0%, rgba(22, 22, 22, 0.9) 75%, rgba(22, 22, 22, 0.8) 100%);
+}
+
+.spacer-2-section {
+  padding-top: 10rem;
+  background: -webkit-gradient(linear, left top, left bottom, from(rgba(22, 22, 22, 0.8)), color-stop(75%, rgba(22, 22, 22, 0.8)), to(rgba(22, 22, 22, 0)));
+  background: linear-gradient(to bottom, rgba(22, 22, 22, 0.8) 0%, rgba(22, 22, 22, 0.8) 75%, rgba(22, 22, 22, 0) 100%);
 }
 
 .projects-section {
