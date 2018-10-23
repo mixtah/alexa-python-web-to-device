@@ -25,7 +25,8 @@ const GET_LOOKING_AT_MESSAGES = ["This is a %s.",];
 const GET_TEMPERATURE_MESSAGES = ["The Temperature is %s degrees Celcius. "];
 const GET_PRESSURE_MESSAGES = ["The Pressure is %s kiloPascals. "];
 const GET_WINDSPEED_MESSAGES = ["The wind is blowing at %s kilometers per hour. "];
-const GET_ATMOSPHERE_MESSAGES = ["The atmosphere here only is %s Oxygen, %s Carbon Dioxide and %s Nitrogen. "];
+const GET_ATMOSPHERE_MESSAGES = ["The atmosphere here on %s, is %s percent Oxygen, %s percent Carbon Dioxide, and %s percent Nitrogen. "];
+const GET_GRAVITY_MESSAGES = ["The gravity is an acceleration of %s meters per second. "];
 
 const SET_SUCCESS_MESSAGES = ["Doing that for you now. ",'One moment. ','There, done.','Of course. '];
 const SET_PLANET_MESSAGES = ["The planet is now %s","Your planet has been set to %s"];
@@ -63,6 +64,8 @@ function pickAny(messages){
 
 function setWorldState(postdata){
     let res = undefined;
+    let synced = false;
+    console.log("About to post:");
     requestify.request(WORLD_STATE_URL,{
         method: 'POST',
         body: postdata,
@@ -70,9 +73,11 @@ function setWorldState(postdata){
         console.log("Request Body:");
         console.log(response.getBody());
         res = JSON.parse(response.getBody());
+        synced = true;
     });
-
-    while(res === undefined) {
+    console.log("Made the post:");
+    deasync.sleep(50);
+    while(!synced) {
         deasync.sleep(100);
     }
     console.log("Updated World State:");
@@ -116,6 +121,7 @@ const handlers = {
     'setPlanetIntent': function () {
         let data = {
             "action": "changetoplanet"+this.event.request.intent.slots.planetName.value,
+            "planetname": this.event.request.intent.slots.planetName.value,
         };
         let res = setWorldState(data)['state'];
         this.response.speak(pickAny(SET_SUCCESS_MESSAGES)+parse(pickAny(SET_PLANET_MESSAGES),res['planetname']));
@@ -146,7 +152,11 @@ const handlers = {
         this.emit(':responseReady');
     },
     'whatIsTheAtmosphereIntent': function () {
-        this.response.speak(parse(pickAny(GET_ATMOSPHERE_MESSAGES),data['o2level'],data['co2level'],data['n2level']));
+        this.response.speak(parse(pickAny(GET_ATMOSPHERE_MESSAGES),data['planetname'],data['o2level'],data['co2level'],data['n2level']));
+        this.emit(':responseReady');
+    },
+    'whatIsTheGravityIntent': function () {
+        this.response.speak(parse(pickAny(GET_GRAVITY_MESSAGES),data['gravity']));
         this.emit(':responseReady');
     },
     'AMAZON.HelpIntent': function () {
