@@ -14,7 +14,7 @@ import urllib
 from bottle import Bottle
 from settings import *
 from beaker.middleware import SessionMiddleware
-import World_States, Alexa_Responses
+import World_States, Alexa_Responses, Subscriptions
 import alexa_client
 
 #Initialize webapp
@@ -80,6 +80,22 @@ def test():
     
     return bottle.template('page-home', 
                            alert=session.pop('alert',''))
+
+@app.post('/add-subscriber')
+def add_subscriber():
+
+    res = bottle.request.forms.dict
+    email = res.get('email',[None])[0]
+
+    if not email:
+        return json.jumps({'message':'Email not provided.'})
+    
+    sub = Subscriptions.Subscription(email=email)
+
+    if sub.save():
+        return json.dumps({'message': "You have been added to our mailing list."})
+    return json.dumps({'message': "Unable to save email."})
+
 
 #Create POST for upload audio to Alexa and respond with Audio file link
 @app.post('/send_audio')

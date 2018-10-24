@@ -263,12 +263,12 @@
       <div class="container">
         <div class="row">
           <div class="col-md-10 col-lg-8 mx-auto text-center">
-
+            
             <i class="far fa-paper-plane fa-2x mb-2 text-white"></i>
             <h2 class="text-white mb-5">Subscribe to receive updates!</h2>
-
-            <form class="form-inline d-flex">
-              <input type="email" class="form-control flex-fill mr-0 mr-sm-2 mb-3 mb-sm-0" id="inputEmail" placeholder="Enter email address...">
+            <div id="alert"></div>
+            <form id="add-subscriber" class="form-inline d-flex" method="POST" action="/add-subscriber">
+              <input type="email" class="form-control flex-fill mr-0 mr-sm-2 mb-3 mb-sm-0" id="email" placeholder="Enter email address...">
               <button type="submit" class="btn btn-primary mx-auto">Subscribe</button>
             </form>
 
@@ -354,6 +354,34 @@
 
     <!-- Custom scripts for this template -->
     <script src="js/grayscale.js"></script>
+
+    <script type="text/javascript">
+      $(document).ready(function() {
+        
+        $("#add-subscriber").submit(function(e) {
+            var form = $(this);
+            var formData = form.find(":input")
+              .filter(function(index, element) {
+                  return $(element).val() != '';
+              }).serialize();
+            $.ajax({
+                   type: form.attr('method'),
+                   url: form.attr('action'),
+                   data: formData,
+                   success: function(response){
+                    $("#alert").html('<div class="alert alert-success"><strong>Thankyou!</strong> You have been added to our mailing list.</div>');
+                    loadData();
+                    },
+                    fail: function(error){
+                      $("#alert").html('<div class="alert alert-warning"><strong>Error '+ error.status + ' ' + error.statusText + '!</strong></div>'); 
+                  },
+              });
+            e.preventDefault();
+        });
+        
+      });
+      
+    </script>
 
   </body>
 
