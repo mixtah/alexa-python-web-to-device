@@ -84,8 +84,7 @@ def test():
 @app.post('/add-subscriber')
 def add_subscriber():
 
-    res = bottle.request.forms.dict
-    email = res.get('email',[None])[0]
+    email = bottle.request.forms.get('email',None)
 
     if not email:
         return json.dumps({'message':'Email not provided.'})
