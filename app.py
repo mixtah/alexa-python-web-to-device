@@ -12,7 +12,7 @@ import json
 import bottle
 import urllib
 from bottle import Bottle
-from settings import *
+import settings
 from beaker.middleware import SessionMiddleware
 import World_States, Alexa_Responses, Subscriptions
 import alexa_client
@@ -73,8 +73,8 @@ def test():
     session = bottle.request.environ.get('beaker.session')  #@UndefinedVariable
     
     if alexa:
-        input = os.path.join(DIR,'static','media','1.wav')
-        save_to = os.path.join(DIR,'static','media','test_ask.mp3')
+        input = os.path.join(settings.DIR,'static','media','1.wav')
+        save_to = os.path.join(settings.DIR,'static','media','test_ask.mp3')
         alexa.ask(input, save_to=save_to)
         session['alert'] = 'Response saved <a href="{}">here</a>'.format(save_to)
     
@@ -88,7 +88,7 @@ def add_subscriber():
     email = res.get('email',[None])[0]
 
     if not email:
-        return json.jumps({'message':'Email not provided.'})
+        return json.dumps({'message':'Email not provided.'})
     
     sub = Subscriptions.Subscription(email=email)
 
@@ -175,7 +175,7 @@ def set_world_state():
 @app.get("/login")
 def login():
     session = bottle.request.environ.get('beaker.session')  #@UndefinedVariable
-    resp = requests.post(AMAZON_AUTH_ENDPOINT, data=LOGIN_PAYLOAD, 
+    resp = requests.post(settings.AMAZON_AUTH_ENDPOINT, data=settings.LOGIN_PAYLOAD, 
                          headers={"Content-Type":"application/x-www-form-urlencoded"})
     
     resp_json = resp.json()
@@ -201,7 +201,7 @@ def gettoken():
         "grant_type": "device_code",
         }
     
-    resp = requests.post(AMAZON_TOKEN_ENDPOINT, data=payload, 
+    resp = requests.post(settings.AMAZON_TOKEN_ENDPOINT, data=payload, 
                          headers={"Content-Type":"application/x-www-form-urlencoded"})
     
     oauth_vars["token"] = resp.json()
@@ -215,12 +215,12 @@ def refreshtoken():
     session = bottle.request.environ.get('beaker.session')  #@UndefinedVariable
     
     payload = {
-        "client_id": CLIENT_ID,
+        "client_id": settings.CLIENT_ID,
         "refresh_token": oauth_vars['token'].get('refresh_token',''),
         "grant_type": "refresh_token",
         }
     
-    resp = requests.post(AMAZON_TOKEN_ENDPOINT, data=payload, 
+    resp = requests.post(settings.AMAZON_TOKEN_ENDPOINT, data=payload, 
                          headers={"Content-Type":"application/x-www-form-urlencoded"})
     
     oauth_vars["token"] = resp.json()
