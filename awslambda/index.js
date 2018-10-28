@@ -11,7 +11,7 @@ const requestify = require('requestify');
 const deasync = require('deasync');
 
 const APP_ID = 'amzn1.ask.skill.b2d0a166-4c0d-466e-8067-afa2076a440c';
-const WORLD_STATE_URL = "http://sunred.zira.com.au/world_state";
+const WORLD_STATE_URL = "https://www.wanderspace.com.au/world_state";
 
 const SKILL_NAME = 'Wonder Space';
 
@@ -22,25 +22,36 @@ const STOP_MESSAGES = ['Goodbye! ','see ya ','buh bye '];
 const GET_FACT_MESSAGE = "Here is a fact about %s. ";
 const GET_PLANET_MESSAGES = ["You're currently on %s ","The planet is %s ","The planet you are on is %s ","This is %s "];
 const GET_LOOKING_AT_MESSAGES = ["This is a %s.",];
-const GET_TEMPERATURE_MESSAGES = ["The Temperature is %s degrees Celcius. "];
+const GET_TEMPERATURE_MESSAGES = ["The Average Temperature is %s degrees Celcius. "];
 const GET_PRESSURE_MESSAGES = ["The Pressure is %s kiloPascals. "];
 const GET_WINDSPEED_MESSAGES = ["The wind is blowing at %s kilometers per hour. "];
 const GET_ATMOSPHERE_MESSAGES = ["The atmosphere here on %s, is %s percent Oxygen, %s percent Carbon Dioxide, and %s percent Nitrogen. "];
 const GET_GRAVITY_MESSAGES = ["The gravity is an acceleration of %s meters per second. "];
 
-const SET_SUCCESS_MESSAGES = ["Doing that for you now. ",'One moment. ','There, done.','Of course. '];
-const SET_PLANET_MESSAGES = ["The planet is now %s","Your planet has been set to %s"];
+const SET_SUCCESS_MESSAGES = ["Doing that for you now. ",'One moment. ','There, done. ','Of course. '];
+const SET_PLANET_MESSAGES = ["The planet is now %s ","Your planet has been set to %s ", "Welcome to %s "];
 
 const FACTS = {
     'earth':[
-        'Earth is the only planet not named after a god.',
+        'Earth is the only planet not named after a god. ',
+        'Earth has a powerful magnetic field caused by its nickel iron core and its rapid rotation. This field protects us from damaging solar winds sent from the sun. ',
+        'There are more than 100 million pieces of junk orbiting Earth at thousands of kilometers per hour. ',
+        'Earth has over 8.6 million lightning strikes per day.',
         ],
     'mars':[
-        'On Mars, the Sun appears about half the size as it does on Earth.',
-        'Sunsets on Mars are blue.',
+        'On Mars, the Sun appears about half the size as it does on Earth. ',
+        'Sunsets on Mars are blue. ',
+        'Mars has two potato shaped moons, Phobos and Deimos. ',
+        'Mars is home to the tallest mountain in the solar system, Olympus Mons. It is a shield volcano that is 21km high.',
+        'Mars has only 15 percent of the Earths volume and just over 10 percent of the Earths mass, this means the Martian surface gravity is only 37% of the Earths, meaning you could leap nearly three times higher on Mars.',
+        'Mars has the largest dust storms in the solar system. They can last for months and cover the entire planet.',
         ],
     'moon':[
-        'The Moon is moving approximately 3.8 cm away from our planet every year.',
+        'The Moon is moving approximately 3.8 cm away from our planet every year. ',
+        'The rise and fall of the tides on Earth is caused by the Moons gravitational pull on Earths water. ',
+        'The Moon has much weaker gravity than Earth, due to its smaller mass, so you would weigh about one sixth of your weight on Earth. This is why the lunar astronauts could leap and bound so high in the air. ',
+        'The Moon has no atmosphere. This means that the surface of the Moon is unprotected from cosmic rays, meteorites and solar winds, and has huge temperature variations. The lack of atmosphere means no sound can be heard on the Moon, and the sky always appears black. ',
+        'The Moon is one of the largest moons in the solar system at fifth place. The only moons larger than it are Ganymede, Io and Callisto around Jupiter and Titan around Saturn. ',
         ]
 };
 
